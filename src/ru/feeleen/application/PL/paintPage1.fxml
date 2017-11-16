@@ -1,100 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="368.0" minWidth="160.0" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.feeleen.application.BLL.paintPageController">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem fx:id="menuItemSave" mnemonicParsing="false" onAction="#save" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <HBox layoutX="77.0" layoutY="71.0" prefHeight="368.0" prefWidth="771.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <AnchorPane>
-                     <children>
-                        <VBox minWidth="134.0" prefHeight="368.0" prefWidth="134.0" style="-fx-background-color: #e3ebee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <AnchorPane>
-                                 <children>
-                                    <Label layoutX="28.0" text="instruments" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="99.0" prefWidth="134.0">
-                                 <children>
-                                    <Button fx:id="buttonLine" layoutX="44.0" layoutY="-1.0" mnemonicParsing="false" onAction="#buttonMode" text="Line" />
-                                    <Button fx:id="buttonPencial" layoutX="35.0" layoutY="30.0" mnemonicParsing="false" onAction="#buttonMode" text="Pencial" />
-                                    <Button fx:id="buttonCircle" layoutX="41.0" layoutY="61.0" mnemonicParsing="false" onAction="#buttonMode" text="Circle" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="282.0" prefWidth="134.0">
-                                 <children>
-                                    <Slider fx:id="sliderWidth" layoutX="15.0" layoutY="193.0" max="50.0" min="1.0" onMouseReleased="#changeWidth" prefHeight="18.0" prefWidth="105.0" />
-                                    <TextField fx:id="textFieldWidth" alignment="CENTER" layoutX="54.0" layoutY="211.0" onKeyReleased="#textFieldchangeWidth" prefHeight="31.0" prefWidth="27.0" />
-                                    <Button fx:id="buttonColor" layoutX="39.0" layoutY="162.0" mnemonicParsing="false" onAction="#changeColor" prefHeight="31.0" prefWidth="57.0" textAlignment="CENTER" />
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane>
-                     <children>
-                        <Canvas fx:id="canvas" height="368.0" layoutX="14.0" pickOnBounds="true" width="508.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="0.0" />
-                        <ImageView fx:id="imageView" fitHeight="346.0" fitWidth="442.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-         </children>
-    </AnchorPane>
-  </children>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox minHeight="368.0" minWidth="160.0" prefHeight="541.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/8.0.141"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.feeleen.application.BLL.paintPageController">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New"/>
+                        <MenuItem mnemonicParsing="false" text="Open…"/>
+                        <Menu mnemonicParsing="false" text="Open Recent"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem fx:id="menuItemSave" mnemonicParsing="false" onAction="#save" text="Save"/>
+                        <MenuItem mnemonicParsing="false" text="Save As…"/>
+                        <MenuItem mnemonicParsing="false" text="Revert"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Preferences…"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Quit"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo"/>
+                        <MenuItem mnemonicParsing="false" text="Redo"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Cut"/>
+                        <MenuItem mnemonicParsing="false" text="Copy"/>
+                        <MenuItem mnemonicParsing="false" text="Paste"/>
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Select All"/>
+                        <MenuItem mnemonicParsing="false" text="Unselect All"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <HBox layoutX="77.0" layoutY="71.0" prefHeight="368.0" prefWidth="771.0" AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <AnchorPane>
+                            <children>
+                                <VBox minWidth="134.0" prefHeight="368.0" prefWidth="134.0"
+                                      style="-fx-background-color: #e3ebee;" AnchorPane.bottomAnchor="0.0"
+                                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                      AnchorPane.topAnchor="0.0">
+                                    <children>
+                                        <AnchorPane>
+                                            <children>
+                                                <Label layoutX="28.0" text="instruments" AnchorPane.leftAnchor="28.0"
+                                                       AnchorPane.rightAnchor="28.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane prefHeight="99.0" prefWidth="134.0">
+                                            <children>
+                                                <Button fx:id="buttonLine" layoutX="44.0" layoutY="-1.0"
+                                                        mnemonicParsing="false" onAction="#buttonMode" text="Line"/>
+                                                <Button fx:id="buttonPencial" layoutX="35.0" layoutY="30.0"
+                                                        mnemonicParsing="false" onAction="#buttonMode" text="Pencial"/>
+                                                <Button fx:id="buttonCircle" layoutX="41.0" layoutY="61.0"
+                                                        mnemonicParsing="false" onAction="#buttonMode" text="Circle"/>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane prefHeight="400.0" prefWidth="134.0">
+                                            <children>
+                                                <Slider fx:id="sliderWidth" layoutX="16.0" layoutY="332.0" max="50.0"
+                                                        min="1.0" onMouseReleased="#changeWidth" prefHeight="18.0"
+                                                        prefWidth="105.0"/>
+                                                <TextField fx:id="textFieldWidth" alignment="CENTER" layoutX="55.0"
+                                                           layoutY="350.0" onKeyReleased="#textFieldchangeWidth"
+                                                           prefHeight="31.0" prefWidth="27.0"/>
+                                                <Button fx:id="buttonColor" layoutX="40.0" layoutY="301.0"
+                                                        mnemonicParsing="false" onAction="#changeColor"
+                                                        prefHeight="31.0" prefWidth="57.0" textAlignment="CENTER"/>
+                                                <Spinner editable="true" layoutX="34.0" layoutY="14.0" prefWidth="97.0">
+                                                    <valueFactory>
+                                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="-1000"
+                                                                                                        max="1000"
+                                                                                                        initialValue="5"
+                                                                                                        amountToStepBy="1"/>
+                                                    </valueFactory>
+                                                </Spinner>
+                                                <Spinner layoutX="34.0" layoutY="45.0" prefWidth="97.0">
+                                                    <valueFactory>
+                                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="-1000"
+                                                                                                        max="1000"
+                                                                                                        initialValue="5"
+                                                                                                        amountToStepBy="1"/>
+                                                    </valueFactory>
+                                                </Spinner>
+                                                <Spinner layoutX="34.0" layoutY="76.0" prefWidth="97.0">
+                                                    <valueFactory>
+                                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="-1000"
+                                                                                                        max="1000"
+                                                                                                        initialValue="5"
+                                                                                                        amountToStepBy="1"/>
+                                                    </valueFactory>
+                                                </Spinner>
+                                                <Spinner layoutX="34.0" layoutY="107.0" prefWidth="97.0">
+                                                    <valueFactory>
+                                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="-1000"
+                                                                                                        max="1000"
+                                                                                                        initialValue="5"
+                                                                                                        amountToStepBy="1"/>
+                                                    </valueFactory>
+                                                </Spinner>
+                                                <Spinner layoutX="34.0" layoutY="138.0" prefWidth="97.0">
+                                                    <valueFactory>
+                                                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="-1000"
+                                                                                                        max="1000"
+                                                                                                        initialValue="5"
+                                                                                                        amountToStepBy="1"/>
+                                                    </valueFactory>
+                                                </Spinner>
+                                                <Label layoutX="12.0" layoutY="19.0" prefHeight="21.0" prefWidth="18.0"
+                                                       text="X0"/>
+                                                <Label layoutX="12.0" layoutY="50.0" prefHeight="21.0" prefWidth="18.0"
+                                                       text="Y0"/>
+                                                <Label layoutX="12.0" layoutY="143.0" prefHeight="21.0" prefWidth="18.0"
+                                                       text="R"/>
+                                                <Label layoutX="12.0" layoutY="81.0" prefHeight="21.0" prefWidth="18.0"
+                                                       text="X"/>
+                                                <Label layoutX="12.0" layoutY="112.0" prefHeight="21.0" prefWidth="18.0"
+                                                       text="Y"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="509.0" prefWidth="607.0">
+                            <children>
+                                <Canvas fx:id="canvas" height="368.0" layoutX="14.0" pickOnBounds="true" width="508.0"
+                                        AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-14.0"
+                                        AnchorPane.topAnchor="0.0"/>
+                                <ImageView fx:id="image2" fitHeight="150.0" fitWidth="200.0" layoutX="294.0"
+                                           layoutY="218.0" pickOnBounds="true" preserveRatio="true"/>
+                                <ImageView fx:id="imageView" fitHeight="509.0" fitWidth="607.0" layoutY="-4.0"
+                                           pickOnBounds="true" preserveRatio="true"/>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>

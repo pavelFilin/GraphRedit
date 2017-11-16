@@ -29,10 +29,12 @@ public class paintPageController {
 
     @FXML
     MenuItem menuItemSave;
-    @FXML
-    Canvas canvas;
+    //@FXML
+    //Canvas canvas;
     @FXML
     ImageView imageView;
+    @FXML
+    ImageView image2;
 
 
     @FXML
@@ -50,11 +52,13 @@ public class paintPageController {
     @FXML
     TextField textFieldWidth;
 
-    private GraphicsContext graphics;
+
+
+    // private GraphicsContext graphics;
 
     private DrawMode drawMode;
 
-    private WritableImage wim;
+    //private WritableImage wim;
     private File file = new File("CanvasImage.png");
 
     public Color color;
@@ -66,24 +70,22 @@ public class paintPageController {
 
     private paintColorPageController colorController;
 
+    private Drawer drawer;
+
     @FXML
     void initialize() {
         color = Color.BLACK;
         buttonColor.setStyle("-fx-background-color: rgb(" + (int) (color.getRed() * 256) + ", " + (int) (color.getGreen() * 256) + ", " + (int) (color.getBlue() * 256) + ")");
-        wim = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
         drawMode = DrawMode.PENCIAL;
-        graphics = canvas.getGraphicsContext2D();
-        graphics.setStroke(color);
-        graphics.setLineWidth(sliderWidth.getValue());
-
-        canvas.setOnMousePressed(e -> {
-            draw(e, drawMode);
-        });
-
-        imageView.setOnMousePressed(event -> draw(event, drawMode));
-
-
         textFieldWidth.setText(Integer.toString((int) sliderWidth.getValue()));
+        drawer = new Drawer((int) imageView.getFitWidth(), (int) imageView.getFitHeight());
+        drawModeController();
+        imageView.setImage(drawer.drawLine(30, 10, 100, 156, getAntColor(color)));
+        imageView.setImage(drawer.drawCircle(200, 200, 100, getAntColor(color)));
+        imageView.setOnMouseClicked(event -> {
+            x = event.getX();
+            y = event.getY();
+        });
     }
 
     public void changeWidth(MouseEvent mouseEvent) {
@@ -111,6 +113,7 @@ public class paintPageController {
         Button temp = (Button) actionEvent.getSource();
         String s = temp.getText();
         drawMode = DrawMode.valueOf(s.toUpperCase());
+        onSwitchMouseEvent();
     }
 
     @FXML
@@ -127,7 +130,7 @@ public class paintPageController {
             stage.setTitle("getColor");
             colorController.setParameters();
             stage.showAndWait();
-            graphics.setStroke(color);
+            // graphics.setStroke(color);
             buttonColor.setStyle("-fx-background-color: rgb(" + (int) (color.getRed() * 256) + ", " + (int) (color.getGreen() * 256) + ", " + (int) (color.getBlue() * 256) + ")");
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,9 +139,8 @@ public class paintPageController {
 
     @FXML
     private void save(ActionEvent actionEvent) {
-        canvas.snapshot(null, wim);
         try {
-            ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
+            ImageIO.write(SwingFXUtils.fromFXImage(imageView.getImage(), null), "png", file);
         } catch (Exception s) {
         }
     }
@@ -149,41 +151,36 @@ public class paintPageController {
 
     private void setLineWidth(double lineWidth) {
         sliderWidth.setValue((int) lineWidth);
-        graphics.setLineWidth((int) lineWidth);
+//        graphics.setLineWidth((int) lineWidth);
         textFieldWidth.setText(Integer.toString((int) lineWidth));
     }
 
-    private void draw(MouseEvent mouseEvent, DrawMode mode){
-        switch (mode) {
-            case PENCIAL: drawPencial(mouseEvent); break;
-            case LINE: drawLine(mouseEvent);
-        }
-    }
-
-    private void drawLine(MouseEvent mouseEvent) {
-        if (!lineMode){
-            x = mouseEvent.getX();
-            y = mouseEvent.getY();
-            lineMode = true;
-        } else {
-            graphics.strokeLine(x, y, x = mouseEvent.getX(), y = mouseEvent.getY());
-            lineMode = false;
-        }
+    private void onSwitchMouseEvent() {
 
     }
 
-    private void drawPencial(MouseEvent mouseEvent){
-        graphics.beginPath();
-        graphics.lineTo(mouseEvent.getX(), mouseEvent.getY());
-        graphics.stroke();
-
-        canvas.setOnMouseDragged(e -> {
-            if (drawMode == DrawMode.PENCIAL) {
-                graphics.lineTo(e.getX(), e.getY());
-                graphics.stroke();
-            }
+    private void drawModeController() {
+        imageView.setOnMouseDragged(event -> {
+            int x = 1 + 2;
         });
+        if (drawMode == DrawMode.PENCIAL) {
+            imageView.setOnMouseDragged(event -> {
+                imageView.setImage(drawer.drawPencial((int) event.getX(), (int) event.getY(), getAntColor(color)));
+            });
+        }
+        if (drawMode == DrawMode.LINE) {
+
+        }
     }
 
+    private java.awt.Color getAntColor(Color c) {
+        return new java.awt.Color((int) (c.getRed() * 256), (int) (c.getGreen() * 256), (int) (c.getBlue() * 256));
+    }
 
+    private void drawPancial(MouseEvent event){
+
+        imageView.setImage(drawer.drawLine((int)x, (int)y, (int)event.getX(), (int)event.getY(), getAntColor(color)));
+        x = event.getX();
+        y = event.getY();
+    }
 }
