@@ -8,19 +8,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,8 +32,6 @@ public class paintPageController {
     //Canvas canvas;
     @FXML
     ImageView imageView;
-    @FXML
-    ImageView image2;
 
 
     @FXML
@@ -44,6 +41,8 @@ public class paintPageController {
     @FXML
     Button buttonCircle;
     @FXML
+    Button buttonPoint;
+    @FXML
     Button buttonColor;
 
     @FXML
@@ -52,6 +51,26 @@ public class paintPageController {
     @FXML
     TextField textFieldWidth;
 
+    @FXML
+    Spinner spinnerX0Line;
+    @FXML
+    Spinner spinnerY0Line;
+    @FXML
+    Spinner spinnerXLine;
+    @FXML
+    Spinner spinnerYLine;
+
+    @FXML
+    Spinner spinnerX0Circle;
+    @FXML
+    Spinner spinnerY0Circle;
+    @FXML
+    Spinner spinnerRCircle;
+
+    @FXML
+    Spinner spinnerXPoint;
+    @FXML
+    Spinner spinnerYPoint;
 
 
     // private GraphicsContext graphics;
@@ -80,6 +99,7 @@ public class paintPageController {
         textFieldWidth.setText(Integer.toString((int) sliderWidth.getValue()));
         drawer = new Drawer((int) imageView.getFitWidth(), (int) imageView.getFitHeight());
         drawModeController();
+        drawer.imageInit();
         imageView.setImage(drawer.drawLine(30, 10, 100, 156, getAntColor(color)));
         imageView.setImage(drawer.drawCircle(200, 200, 100, getAntColor(color)));
         imageView.setOnMouseClicked(event -> {
@@ -113,7 +133,6 @@ public class paintPageController {
         Button temp = (Button) actionEvent.getSource();
         String s = temp.getText();
         drawMode = DrawMode.valueOf(s.toUpperCase());
-        onSwitchMouseEvent();
     }
 
     @FXML
@@ -155,32 +174,69 @@ public class paintPageController {
         textFieldWidth.setText(Integer.toString((int) lineWidth));
     }
 
-    private void onSwitchMouseEvent() {
-
-    }
-
     private void drawModeController() {
         imageView.setOnMouseDragged(event -> {
-            int x = 1 + 2;
+            int x = 1;
         });
         if (drawMode == DrawMode.PENCIAL) {
             imageView.setOnMouseDragged(event -> {
                 imageView.setImage(drawer.drawPencial((int) event.getX(), (int) event.getY(), getAntColor(color)));
             });
         }
-        if (drawMode == DrawMode.LINE) {
-
-        }
     }
 
     private java.awt.Color getAntColor(Color c) {
-        return new java.awt.Color((int) (c.getRed() * 256), (int) (c.getGreen() * 256), (int) (c.getBlue() * 256));
+        return new java.awt.Color((int) (c.getRed() * 255), (int) (c.getGreen() * 255), (int) (c.getBlue() * 255));
     }
 
-    private void drawPancial(MouseEvent event){
+    private void drawPancial(MouseEvent event) {
 
-        imageView.setImage(drawer.drawLine((int)x, (int)y, (int)event.getX(), (int)event.getY(), getAntColor(color)));
+        imageView.setImage(drawer.drawLine((int) x, (int) y, (int) event.getX(), (int) event.getY(), getAntColor(color)));
         x = event.getX();
         y = event.getY();
+    }
+
+    public void drawLine(ActionEvent actionEvent) {
+        imageView.setImage(drawer.drawLine((int) spinnerX0Line.getValue(), (int) spinnerY0Line.getValue(), (int) spinnerXLine.getValue(), (int) spinnerYLine.getValue(), getAntColor(color)));
+    }
+
+    public void drawCircle(ActionEvent actionEvent) {
+        imageView.setImage(drawer.drawCircle((int) spinnerX0Circle.getValue(), (int) spinnerY0Circle.getValue(), (int) spinnerRCircle.getValue(), getAntColor(color)));
+    }
+
+    public void drawPoint(ActionEvent actionEvent) {
+        imageView.setImage(drawer.drawPointing((int) spinnerXPoint.getValue(), (int) spinnerYPoint.getValue(), getAntColor(color)));
+    }
+
+    public void InvertColors(ActionEvent actionEvent) {
+        imageView.setImage(drawer.InvertColors());
+    }
+
+    public void openFile(ActionEvent actionEvent) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("image.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        drawer.setImage(img);
+        imageView.setImage(SwingFXUtils.toFXImage(img, null));
+    }
+
+    public void getContrast(ActionEvent actionEvent) {
+        imageView.setImage(drawer.getContrast());
+    }
+
+    public void getRedChannal(ActionEvent actionEvent) {
+        imageView.setImage(drawer.getChannel(255,0,0));
+    }
+
+    public void getGreenChannel(ActionEvent actionEvent) {
+        imageView.setImage(drawer.getChannel(0,255,0));
+    }
+
+    public void getBlueAction(ActionEvent actionEvent) {
+        imageView.setImage(drawer.getChannel(0,0,255));
     }
 }

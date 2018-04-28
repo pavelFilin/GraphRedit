@@ -14,7 +14,7 @@ public class PaintForm extends Application {
         Parent root1 = (Parent) fxmlLoader.load();
        // Parent root = FXMLLoader.load(getClass().getResource("paintPage1.fxml"));
         primaryStage.setTitle("My Paint");
-        primaryStage.setScene(new Scene(root1, 640, 400));
+        primaryStage.setScene(new Scene(root1, 746, 726));
         paintPageController colorController = (paintPageController) fxmlLoader.getController();
         primaryStage.show();
     }
