@@ -54,6 +54,8 @@
                <items>
                   <MenuItem fx:id="InvertColorsMenuItem" mnemonicParsing="false" onAction="#InvertColors" text="Invert colors" />
                   <MenuItem fx:id="contrastMenuItem1" mnemonicParsing="false" onAction="#getContrast" text="Contrast" />
+                  <MenuItem fx:id="addCodeMenuItem" mnemonicParsing="false" onAction="#addCode" text="Add code" />
+                  <MenuItem fx:id="readTextButton" mnemonicParsing="false" onAction="#readText" text="Unspecified Action" />
                   <Menu mnemonicParsing="false" text="Channels">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#getRedChannal" text="Red" />

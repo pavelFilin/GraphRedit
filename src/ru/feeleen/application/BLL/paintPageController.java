@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 
 public class paintPageController {
@@ -229,14 +230,36 @@ public class paintPageController {
     }
 
     public void getRedChannal(ActionEvent actionEvent) {
-        imageView.setImage(drawer.getChannel(255,0,0));
+        imageView.setImage(drawer.getChannel(255, 0, 0));
     }
 
     public void getGreenChannel(ActionEvent actionEvent) {
-        imageView.setImage(drawer.getChannel(0,255,0));
+        imageView.setImage(drawer.getChannel(0, 255, 0));
     }
 
     public void getBlueAction(ActionEvent actionEvent) {
-        imageView.setImage(drawer.getChannel(0,0,255));
+        imageView.setImage(drawer.getChannel(0, 0, 255));
+    }
+
+    public void addCode(ActionEvent actionEvent) {
+        TextInputDialog dialog = new TextInputDialog("walter");
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Look, a Text Input Dialog");
+        dialog.setContentText("Please enter your string:");
+
+// Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        imageView.setImage(drawer.setText(result.get()));
+
+
+    }
+
+    public void readText(ActionEvent actionEvent) {
+        String text = drawer.readText();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setContentText(text);
+        alert.showAndWait();
     }
 }

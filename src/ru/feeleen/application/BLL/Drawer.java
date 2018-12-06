@@ -229,8 +229,6 @@ public class Drawer {
     }
 
     public Image getChannel(int red, int green, int blue) {
-
-
         for (int i = 0; i < currentlyImage.getWidth(); i++) {
             for (int j = 0; j < currentlyImage.getHeight(); j++) {
                 int redImg = ((currentlyImage.getRGB(i, j)) >> 16) & 0xFF;
@@ -256,5 +254,152 @@ public class Drawer {
 
     }
 
+    public Image setText(String text) {
+        int countOfText = text.length() * 16;
+        if (countOfText > width * height || countOfText >= Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Such more text");
+        }
+        int place = 0;
+
+        byte count4 = (byte) (countOfText >> 24);
+        byteWriteToImg(count4, place);
+        place += 8;
+        byte count3 = (byte) (countOfText >> 16);
+        byteWriteToImg(count3, place);
+        place += 8;
+        byte count2 = (byte) (countOfText >> 8);
+        byteWriteToImg(count2, place);
+        place += 8;
+
+        byte count1 = (byte) (countOfText);
+        byteWriteToImg(count1, place);
+        place += 8;
+
+        char[] chars = text.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            charWriteToImg(chars[i], place);
+            place += 16;
+        }
+
+        return SwingFXUtils.toFXImage(currentlyImage, null);
+    }
+
+    private void bitWriteToImg(byte bit, int place) {
+        int x = place % currentlyImage.getWidth();
+        int y = (int) Math.ceil(place / currentlyImage.getWidth());
+        System.out.println("1" + currentlyImage.getRGB(x, y));
+
+        int redImg = ((currentlyImage.getRGB(x, y)) >> 16) & 0xFF;
+        int temp = redImg;
+        if (bit == 0) {
+            if (redImg % 2 == 0) {
+
+            } else {
+                if (redImg == 255) {
+                    redImg--;
+                } else {
+                    redImg++;
+                }
+            }
+        } else {
+            if (redImg % 2 == 0) {
+                redImg++;
+            } else {
+
+            }
+        }
+
+        int greenImg = ((currentlyImage.getRGB(x, y)) >> 8) & 0xFF;
+        int blueImg = currentlyImage.getRGB(x, y) & 0xFF;
+
+        int rgb = redImg;
+        rgb <<= 8;
+        rgb += greenImg;
+        rgb <<= 8;
+        rgb += blueImg;
+
+        System.out.println("place = " + place + " bit = " + bit + " old: " + temp + " new " + redImg);
+        currentlyImage.setRGB(x, y, rgb);
+        System.out.println("1" + currentlyImage.getRGB(x, y));
+    }
+
+    private void byteWriteToImg(byte b, int place) {
+        byte firstByte = (byte) (b & 1);
+        int count = 0;
+        do {
+            firstByte = (byte) Math.abs((byte) (b >> 7));
+
+            bitWriteToImg(firstByte, place);
+            b = (byte) (b << 1);
+            place += 1;
+
+            count++;
+        } while (count < 8);
+    }
+
+    private void charWriteToImg(char b, int place) {
+        int littleByte = b & 255;
+        int bigByte = (b >> 8) & 255;
+        byteWriteToImg((byte) bigByte, place);
+        place += 8;
+        byteWriteToImg((byte) littleByte, place);
+    }
+
+    public String readText() {
+        boolean[] countOfCharsArray = new boolean[32];
+        int countOfChars = 0;
+        int place = 0;
+        for (int i = 0; i < countOfCharsArray.length; i++) {
+            countOfCharsArray[i] = readBit(place);
+            place++;
+        }
+
+        for (int i = 0; i < countOfCharsArray.length; i++) {
+            if (countOfCharsArray[i]) {
+                countOfChars++;
+            }
+
+            if (i != countOfCharsArray.length - 1) {
+                countOfChars = countOfChars << 1;
+            }
+        }
+
+        boolean[] textBits = new boolean[countOfChars];
+        for (int i = 0; i < countOfChars; i++) {
+            textBits[i] = readBit(place);
+            place++;
+        }
+
+        int count = 0;
+        char[] textChar = new char[countOfChars/16];
+        for (int i = 0; i < textChar.length; i++) {
+            char temp = 0;
+            for (int j = 0; j < 16; j++) {
+                if (textBits[count]){
+                    temp +=1 ;
+                }
+                if (j!=15) {
+                    temp=(char)(temp<<1);
+                }
+                count++;
+            }
+            textChar[i] = temp;
+        }
+
+        return new String(textChar);
+    }
+
+    private boolean readBit(int place) {
+        int x = place % currentlyImage.getWidth();
+        int y = (int) Math.ceil(place / currentlyImage.getWidth());
+
+        int redImg = ((currentlyImage.getRGB(x, y)) >> 16) & 0xFF;
+        if (redImg % 2 == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
